@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>समूह साधन केंद्र सावरगाव — शालेय माहिती नोंदवही</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1e3a5f;
+    --primary-dark: #112238;
+    --accent: #b8862e;
+    --bg-page: #f8fafc;
+    --bg-card: #ffffff;
+    --ink: #1e293b;
+    --ink-muted: #64748b;
+    --border: #e2e8f0;
+    --success: #16a34a;
+    --shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg-page);
+    color: var(--ink);
+    font-family: 'Noto Sans Devanagari', sans-serif;
+    line-height: 1.5;
+    padding-bottom: 70px;
+  }
+  .serif { font-family: 'Noto Serif Devanagari', serif; }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: #fff;
+    padding: 22px 20px;
+    border-bottom: 4px solid var(--accent);
+    box-shadow: var(--shadow);
+  }
+  .header-content { max-width: 800px; margin: 0 auto; }
+  .header .badge {
+    display: inline-block;
+    background: rgba(184, 134, 46, 0.25);
+    color: #fde047;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(253, 224, 71, 0.4);
+    margin-bottom: 6px;
+  }
+  .header h1 { font-size: 21px; font-weight: 700; margin-bottom: 4px; }
+  .header p { font-size: 12.5px; color: #cbd5e1; }
+
+  /* Sync Indicator */
+  .sync-status-bar {
+    max-width: 800px; margin: -14px auto 12px;
+    background: #fff; border-radius: 10px;
+    padding: 8px 16px; display: flex;
+    justify-content: space-between; align-items: center;
+    box-shadow: var(--shadow); border: 1px solid var(--border);
+  }
+  .sync-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--success); display: inline-block; }
+  .sync-dot.loading { background: #eab308; animation: pulse 0.8s infinite alternate; }
+  @keyframes pulse { 0% { opacity: 0.3; } 100% { opacity: 1; } }
+
+  /* Tabs */
+  .tab-container {
+    max-width: 800px; margin: 12px auto;
+    display: flex; gap: 8px; overflow-x: auto;
+    scrollbar-width: none; padding: 0 14px;
+  }
+  .tab-container::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    background: #e2e8f0; border: none;
+    padding: 9px 16px; border-radius: 9px;
+    font-family: inherit; font-size: 13px; font-weight: 600;
+    color: var(--ink-muted); cursor: pointer; white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .tab-btn.active {
+    background: var(--primary); color: #ffffff;
+    box-shadow: 0 4px 10px rgba(30, 58, 95, 0.2);
+  }
+
+  .wrap { max-width: 800px; margin: 0 auto; padding: 0 14px; }
+
+  /* Cards */
+  .card {
+    background: var(--bg-card); border-radius: 12px;
+    padding: 16px; margin-bottom: 12px;
+    box-shadow: var(--shadow); border: 1px solid var(--border);
+  }
+  .card-header {
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; user-select: none;
+  }
+  .card-title { font-weight: 700; font-size: 15px; color: var(--primary); }
+  .card-meta { font-size: 12px; color: var(--ink-muted); margin-top: 2px; }
+
+  /* Forms */
+  .form-group { margin-bottom: 12px; }
+  .form-label { display: block; font-size: 12.5px; font-weight: 600; margin-bottom: 4px; }
+  .form-control {
+    width: 100%; padding: 9px 12px;
+    border: 1.5px solid var(--border); border-radius: 8px;
+    font-size: 13.5px; font-family: inherit; background: #f8fafc;
+  }
+  .form-control:focus { outline: none; border-color: var(--primary); background: #fff; }
+
+  .btn {
+    padding: 10px 16px; border-radius: 8px; font-size: 13.5px;
+    font-weight: 600; border: none; cursor: pointer;
+    font-family: inherit; display: inline-flex; align-items: center;
+    justify-content: center; gap: 6px; width: 100%;
+  }
+  .btn-success { background: var(--success); color: #fff; }
+  .btn-success:active { transform: scale(0.98); }
+
+  /* Grids */
+  .cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(85px, 1fr)); gap: 6px; margin: 8px 0; }
+  .cat-box { background: #f1f5f9; border: 1px solid var(--border); padding: 6px; border-radius: 6px; text-align: center; }
+  .cat-title { font-size: 10px; color: var(--ink-muted); }
+  .cat-val { font-size: 13.5px; font-weight: 700; color: var(--primary); }
+
+  footer {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--bg-card); border-top: 1px solid var(--border);
+    padding: 8px 20px; text-align: center; font-size: 11.5px; color: var(--ink-muted);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-content">
+    <div class="badge">समूह साधन केंद्र, सावरगाव · तालुका माजलगाव, जिल्हा बीड</div>
+    <h1 class="serif">शालेय माहिती व पटसंख्या नोंदवही</h1>
+    <p>Google Sheets सोबत जोडलेली थेट डिजिटल नोंदवही</p>
+  </div>
+</div>
+
+<div class="sync-status-bar">
+  <div style="display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600;">
+    <span class="sync-dot" id="syncDot"></span>
+    <span id="syncText">Google Sheets शी जोडले जात आहे...</span>
+  </div>
+  <button onclick="loadFromSheets()" style="border:none; background:transparent; color:var(--primary); font-size:12px; font-weight:700; cursor:pointer;">🔄 रिफ्रेश</button>
+</div>
+
+<div class="tab-container">
+  <button class="tab-btn active" onclick="switchTab(event, 'schools')">🏫 शाळा व शिक्षक</button>
+  <button class="tab-btn" onclick="switchTab(event, 'monthly')">📝 पट बदल नोंदवा</button>
+  <button class="tab-btn" onclick="switchTab(event, 'combined')">📊 एकत्रित आकडेवारी</button>
+</div>
+
+<div class="wrap">
+  <!-- शाळा यादी -->
+  <div id="tab-schools">
+    <div class="card" style="padding: 10px;">
+      <input type="text" class="form-control" id="searchSchool" placeholder="शाळेचे नाव किंवा UDISE कोड शोधा..." oninput="renderSchools(this.value)">
+    </div>
+    <div id="schoolListContainer"></div>
+  </div>
+
+  <!-- पट बदल फॉर्म -->
+  <div id="tab-monthly" style="display:none;">
+    <div class="card">
+      <h3 class="serif" style="font-size:16px; color:var(--primary); margin-bottom:12px;">पटसंख्येत झालेला बदल सेव्ह करा</h3>
+      <div class="form-group">
+        <label class="form-label">शाळा निवडा:</label>
+        <select id="mr_school_select" class="form-control"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">बदलाचा प्रकार:</label>
+        <select id="mr_type" class="form-control" onchange="toggleMrFields(this.value)">
+          <option value="none">कुठलाही बदल नाही</option>
+          <option value="inc">+ विद्यार्थी वाढला (नवीन दाखल)</option>
+          <option value="dec">- विद्यार्थी कमी झाला (कमी/दाखला दिला)</option>
+        </select>
+      </div>
+
+      <div id="mr_detail_fields" style="display:none; background:#f8fafc; padding:12px; border-radius:8px; border:1px solid var(--border); margin-bottom:14px;">
+        <div class="form-group">
+          <label class="form-label">इयत्ता:</label>
+          <select id="mr_class" class="form-control">
+            <option value="1">इयत्ता १ ली</option><option value="2">इयत्ता २ री</option>
+            <option value="3">इयत्ता ३ री</option><option value="4">इयत्ता ४ थी</option>
+            <option value="5">इयत्ता ५ वी</option><option value="6">इयत्ता ६ वी</option>
+            <option value="7">इयत्ता ७ वी</option><option value="8">इयत्ता ८ वी</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">लिंग:</label>
+          <select id="mr_gender" class="form-control">
+            <option value="boys">मुलगा</option>
+            <option value="girls">मुलगी</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">प्रवर्ग (Category):</label>
+          <select id="mr_cat" class="form-control"></select>
+        </div>
+      </div>
+
+      <button class="btn btn-success" id="saveBtn" onclick="saveMonthlyChange()">💾 Google Sheets मध्ये सेव्ह करा</button>
+    </div>
+  </div>
+
+  <!-- एकत्रित आकडेवारी -->
+  <div id="tab-combined" style="display:none;">
+    <div class="card" id="combinedSummaryCard"></div>
+  </div>
+</div>
+
+<footer>
+  © समूह साधन केंद्र सावरगाव · डेटा थेट Google Sheets मध्ये अद्ययावत होतो
+</footer>
+
+<script>
+// ====== तुमची Google Apps Script Web App URL येथे टाका ======
+const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
+
+const CATEGORIES = ["अनुसूचित जाती (SC)", "अनुसूचित जमाती (ST)", "विमुक्त जाती (VJ)", "भटक्या जमाती (NT)", "विशेष मागास (SBC)", "ईतर मागास(OBC)", "खुला (OPEN)"];
+
+let data = [
+  {"sr": 1, "name": "ZPCPS SAVARGAON", "classes": "1 To 7", "udise": "27270709601", "teachers": [{"name": "SHINDE SAMADHAN HAMBIRRAO", "post": "Head Master", "mobile": "9423733799"}], "classData": [{"class": 1, "boys": [3, 0, 0, 1, 0, 0, 2], "boysTotal": 6, "girls": [4, 0, 0, 0, 0, 1, 4], "girlsTotal": 9, "total": 15}], "schoolTotal": {"boys": [3, 0, 0, 1, 0, 0, 2], "boysTotal": 6, "girls": [4, 0, 0, 0, 0, 1, 4], "girlsTotal": 9, "total": 15}}
+];
+
+function setSyncStatus(loading, text) {
+  const dot = document.getElementById('syncDot');
+  const txt = document.getElementById('syncText');
+  if (loading) {
+    dot.className = "sync-dot loading";
+  } else {
+    dot.className = "sync-dot";
+  }
+  txt.innerText = text;
+}
+
+// Google Sheets वरून डेटा आणणे
+async function loadFromSheets() {
+  setSyncStatus(true, "Google Sheets वरून लोड होत आहे...");
+  try {
+    const res = await fetch(GOOGLE_SHEETS_URL);
+    const text = await res.text();
+    if (text && text.trim().length > 5) {
+      const parsed = JSON.parse(text);
+      if (parsed.schools && parsed.schools.length > 0) {
+        data = parsed.schools;
+      }
+    }
+    setSyncStatus(false, "Google Sheets शी जोडलेले आहे");
+  } catch (err) {
+    setSyncStatus(false, "स्थानिक डेटा लोड केला (Google Sheet लिंक तपासा)");
+  }
+  populateDropdowns();
+  renderSchools();
+  renderCombined();
+}
+
+// Google Sheets मध्ये डेटा पाठवणे
+async function syncToSheets() {
+  setSyncStatus(true, "Google Sheets मध्ये सेव्ह होत आहे...");
+  try {
+    await fetch(GOOGLE_SHEETS_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ schools: data, categories: CATEGORIES })
+    });
+    setSyncStatus(false, "Google Sheets मध्ये सुरक्षित जतन झाले!");
+    return true;
+  } catch (err) {
+    setSyncStatus(false, "त्रुटी: सेव्ह झाले नाही");
+    return false;
+  }
+}
+
+function escapeHtml(s){
+  return (s||'').toString().replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function renderSchools(filter = "") {
+  const container = document.getElementById('schoolListContainer');
+  const term = (filter || '').trim().toLowerCase();
+  const filtered = data.filter(s => 
+    s.name.toLowerCase().includes(term) || (s.udise||'').includes(term)
+  );
+
+  if(filtered.length === 0) {
+    container.innerHTML = '<div class="card" style="text-align:center; color:var(--ink-muted);">कोणतीही शाळा सापडली नाही.</div>';
+    return;
+  }
+
+  container.innerHTML = filtered.map(s => `
+    <div class="card">
+      <div class="card-header" onclick="toggleDetails(${s.sr})">
+        <div>
+          <div class="card-title">${s.sr}. ${escapeHtml(s.name)}</div>
+          <div class="card-meta">UDISE: ${escapeHtml(s.udise)} · वर्ग: ${escapeHtml(s.classes)}</div>
+        </div>
+        <div style="font-size:18px; color:var(--primary); font-weight:bold;">+</div>
+      </div>
+      <div id="details-${s.sr}" style="display:none; margin-top:14px; border-top:1px dashed var(--border); padding-top:12px;">
+        <div style="font-size:13px; margin-bottom:10px;">
+          <b>एकूण पटसंख्या:</b> ${s.schoolTotal ? s.schoolTotal.total : 0} 
+          (मुले: ${s.schoolTotal ? s.schoolTotal.boysTotal : 0}, मुली: ${s.schoolTotal ? s.schoolTotal.girlsTotal : 0})
+        </div>
+        <div style="font-size:12.5px; font-weight:700; color:var(--primary); margin-bottom:4px;">शिक्षक वृंद:</div>
+        ${(s.teachers||[]).map((t, idx) => `
+          <div style="font-size:12.5px; padding:4px 0; border-bottom:1px solid #f8fafc; display:flex; justify-content:space-between;">
+            <span>${idx+1}. ${escapeHtml(t.name)} <span style="color:var(--ink-muted);">(${escapeHtml(t.post)})</span></span>
+            ${t.mobile ? `<a href="tel:${t.mobile}" style="color:var(--primary); text-decoration:none; font-weight:600;">📞 ${t.mobile}</a>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleDetails(sr) {
+  const el = document.getElementById('details-' + sr);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function populateDropdowns() {
+  const schSelect = document.getElementById('mr_school_select');
+  schSelect.innerHTML = data.map(s => `<option value="${s.sr}">${s.sr}. ${escapeHtml(s.name)}</option>`).join('');
+  
+  const catSelect = document.getElementById('mr_cat');
+  catSelect.innerHTML = CATEGORIES.map((c, i) => `<option value="${i}">${escapeHtml(c)}</option>`).join('');
+}
+
+function toggleMrFields(val) {
+  document.getElementById('mr_detail_fields').style.display = (val === 'none') ? 'none' : 'block';
+}
+
+async function saveMonthlyChange() {
+  const sr = parseInt(document.getElementById('mr_school_select').value);
+  const type = document.getElementById('mr_type').value;
+  const school = data.find(s => s.sr === sr);
+
+  if (type === 'none') {
+    alert("नोंद: पटसंख्येत कोणताही बदल नाही.");
+    return;
+  }
+
+  if (school) {
+    const cls = parseInt(document.getElementById('mr_class').value);
+    const gender = document.getElementById('mr_gender').value;
+    const catIdx = parseInt(document.getElementById('mr_cat').value);
+
+    let cData = school.classData.find(c => c.class === cls);
+    if (!cData) {
+      cData = { class: cls, boys: [0,0,0,0,0,0,0], boysTotal: 0, girls: [0,0,0,0,0,0,0], girlsTotal: 0, total: 0 };
+      school.classData.push(cData);
+      school.classData.sort((a,b)=>a.class-b.class);
+    }
+
+    if (type === 'inc') {
+      cData[gender][catIdx]++;
+      if(gender === 'boys') cData.boysTotal++; else cData.girlsTotal++;
+      cData.total++;
+    } else if (type === 'dec') {
+      if (cData[gender][catIdx] > 0) {
+        cData[gender][catIdx]--;
+        if(gender === 'boys') cData.boysTotal--; else cData.girlsTotal--;
+        cData.total--;
+      } else {
+        alert("त्रुटी: या प्रवर्गात विद्यार्थी संख्या शून्य आहे.");
+        return;
+      }
+    }
+
+    // एकूण बेरीज पुन्हा करणे
+    const st = { boys: [0,0,0,0,0,0,0], boysTotal: 0, girls: [0,0,0,0,0,0,0], girlsTotal: 0, total: 0 };
+    school.classData.forEach(cd => {
+      for(let i=0; i<7; i++) { 
+        st.boys[i] += cd.boys[i]; 
+        st.girls[i] += cd.girls[i]; 
+      }
+      st.boysTotal += cd.boysTotal; 
+      st.girlsTotal += cd.girlsTotal; 
+      st.total += cd.total;
+    });
+    school.schoolTotal = st;
+  }
+
+  // Google Sheets मध्ये थेट पाठवणे
+  document.getElementById('saveBtn').innerText = "सेव्ह होत आहे...";
+  await syncToSheets();
+  document.getElementById('saveBtn').innerText = "💾 Google Sheets मध्ये सेव्ह करा";
+  
+  alert("बदल Google Sheets मध्ये यशस्वीरीत्या सेव्ह झाला!");
+  renderSchools();
+  renderCombined();
+}
+
+function renderCombined() {
+  let bTot = 0, gTot = 0, grand = 0;
+  data.forEach(s => {
+    if(s.schoolTotal) {
+      bTot += s.schoolTotal.boysTotal;
+      gTot += s.schoolTotal.girlsTotal;
+      grand += s.schoolTotal.total;
+    }
+  });
+
+  document.getElementById('combinedSummaryCard').innerHTML = `
+    <h3 class="serif" style="color:var(--primary); font-size:16px; margin-bottom:12px;">केंद्राची एकूण पटसंख्या समरी</h3>
+    <div style="display:flex; gap:8px; margin-bottom:14px;">
+      <div style="flex:1; background:#f1f5f9; padding:10px; border-radius:8px; text-align:center;">
+        <div style="font-size:11px; color:var(--ink-muted);">एकूण मुले</div>
+        <div style="font-size:18px; font-weight:700; color:var(--primary);">${bTot}</div>
+      </div>
+      <div style="flex:1; background:#f1f5f9; padding:10px; border-radius:8px; text-align:center;">
+        <div style="font-size:11px; color:var(--ink-muted);">एकूण मुली</div>
+        <div style="font-size:18px; font-weight:700; color:var(--primary);">${gTot}</div>
+      </div>
+      <div style="flex:1; background:#fef9c3; padding:10px; border-radius:8px; text-align:center; border:1px solid #fde047;">
+        <div style="font-size:11px; color:#854d0e;">एकूण पट</div>
+        <div style="font-size:18px; font-weight:700; color:#854d0e;">${grand}</div>
+      </div>
+    </div>
+  `;
+}
+
+function switchTab(evt, tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  evt.target.classList.add('active');
+  document.getElementById('tab-schools').style.display = tab === 'schools' ? 'block' : 'none';
+  document.getElementById('tab-monthly').style.display = tab === 'monthly' ? 'block' : 'none';
+  document.getElementById('tab-combined').style.display = tab === 'combined' ? 'block' : 'none';
+}
+
+// ॲप सुरू करणे
+loadFromSheets();
+</script>
+</body>
+</html>
